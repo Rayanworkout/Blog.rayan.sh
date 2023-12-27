@@ -7,6 +7,7 @@ import { Router, createRouter, createWebHistory } from 'vue-router';
 import Home from './pages/Home.page.vue'
 import About from './pages/About.page.vue'
 import Article from './pages/Article.page.vue'
+import NotFound from './pages/NotFound.page.vue'
 
 
 
@@ -30,7 +31,10 @@ declare module '@vue/runtime-core' {
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        // On sections within the same page, I use smooth scrollBehavior
+        {
+            path: "/:notFound",
+            component: NotFound,
+        },
         { path: '/', component: Home, name: 'Home' },
         { path: '/about', component: About, name: 'About' },
         { path: '/article/:id', component: Article, name: 'Article' },

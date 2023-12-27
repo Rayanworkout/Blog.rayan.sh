@@ -88,23 +88,24 @@ const showCursor = computed(() => index.value < text.length);
     font-size: 1.3rem;
 }
 
+
 .my-btn {
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: var(--text-color);
-    padding: 0.5rem;
-    width: 60px;
-    transition: 1s;
-    border-radius: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+text-decoration: none;
+color: var(--text-color);
+padding: 0.5rem;
+width: 60px;
+transition: 1s;
+border-radius: 10px;
 }
 
 .my-btn:hover {
-    transform: scale(1.05);
-    border-color: var(--primary);
-    cursor: pointer;
+transform: scale(1.05);
+border-color: var(--primary);
+cursor: pointer;
 }
 
 
