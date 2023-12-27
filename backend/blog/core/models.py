@@ -1,0 +1,46 @@
+from django.db import models
+from datetime import datetime
+
+class Article(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    description = models.TextField()
+    tags = models.ManyToManyField('Tag')
+    creation_date = models.DateTimeField()
+    
+    def __str__(self):
+        return self.title.capitalize()
+    
+    
+    def serialize_full(self):
+ 
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "content": self.content,
+            "tags": [tag.name for tag in self.tags.all()],
+            "creation_date": self.creation_date.strftime("%B %d, %Y")
+        }
+    
+    def serialize_short(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "tags": [tag.name for tag in self.tags.all()],
+            "creation_date": self.creation_date.strftime("%B %d, %Y")
+        }
+    
+    
+    def save(self, *args, **kwargs):
+        if not self.creation_date:
+            self.creation_date = datetime.now()
+        super().save(*args, **kwargs)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+    
+    def __str__(self) -> str:
+        return self.name.capitalize()
