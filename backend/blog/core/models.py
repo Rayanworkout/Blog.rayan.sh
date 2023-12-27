@@ -1,12 +1,14 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
+
 
 class Article(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     description = models.TextField()
     tags = models.ManyToManyField('Tag')
-    creation_date = models.DateTimeField()
+    creation_date = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
         return self.title.capitalize()
