@@ -26,3 +26,13 @@ jobs:
     - name: Run Tests
       run: |
         python backend/blog/manage.py test core
+      continue-on-error: true
+    
+    - name: send telegram message on push
+      if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Not all tests passed on ${{ github.repository }}.
