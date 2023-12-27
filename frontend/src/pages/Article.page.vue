@@ -12,16 +12,11 @@ import ArticleTag from './components/small/ArticleTag.small.vue'
 
 
 const route = useRoute();
-
-onMounted(async () => {
-    const id = route.params.id.toString();
-    const response = await api.getSingleArticle(id);
-    article.value = response;
-
-    const md = new MarkdownIt().use(mdHighlight);
-    renderedHtml.value = md.render(article.value.content);
-    state.loading = false
+const state = reactive({
+    loading: true,
+    error: false
 })
+
 
 // Initialize the article object as empty
 const article = ref<ArticleType>({
@@ -33,11 +28,35 @@ const article = ref<ArticleType>({
     tags: [],
 });
 
-const state = reactive({
-    loading: true,
-})
-
 const renderedHtml = ref(''); // Ref to store the rendered HTML
+
+onMounted(async () => {
+
+    try {
+        const id = route.params.id.toString();
+        const response = await api.getSingleArticle(id);
+
+        if (response === null) {
+
+            state.loading = false
+            state.error = true
+            throw new Error("No data returned from API.")
+        }
+        else {
+            article.value = response;
+            const md = new MarkdownIt().use(mdHighlight);
+            renderedHtml.value = md.render(article.value.content);
+            state.loading = false
+        }
+
+
+    } catch (err: any) {
+        state.loading = false
+        state.error = true
+        throw new Error('Could not get article.')
+    }
+
+});
 
 </script>
 
@@ -46,7 +65,8 @@ const renderedHtml = ref(''); // Ref to store the rendered HTML
     <section class="my-5 py-3">
         <div class="container">
             <div class="article-container mx-auto">
-                <div v-if="state.loading" class="text-center">Fetching Article ...</div>
+                <div v-if="state.loading" class="text-center">Fetching Article <span class="cursor">_</span></div>
+                <div v-if="state.error" class="text-center">Error while fetching the article ...</div>
                 <div class="pb-5 text-center">
                     <h1>{{ article.title }}</h1>
                     <div>
@@ -69,7 +89,6 @@ const renderedHtml = ref(''); // Ref to store the rendered HTML
 
 
 <style scoped>
-
 .article-container {
     width: 75%;
 }

@@ -52,27 +52,6 @@ const showCursor = computed(() => index.value < text.length);
 </template>
 
 <style scoped>
-.cursor {
-    animation: blinkCursor 1.5s infinite;
-    /* Animate the cursor */
-}
-
-@keyframes blinkCursor {
-    0% {
-        opacity: 1;
-        /* Visible */
-    }
-
-    50% {
-        opacity: 0;
-        /* Invisible */
-    }
-
-    100% {
-        opacity: 1;
-        /* Visible */
-    }
-}
 
 .about {
     width: 30%;
