@@ -3,82 +3,72 @@ import MyHeader from './components/Header.component.vue'
 import ArticlesGrid from './components/ArticlesGrid.component.vue'
 import SearchInput from './components/SearchInput.component.vue'
 import CategoriesFilter from './components/CategoriesFilter.component.vue'
-
+import { fetchArticles, fetchCategoryList } from '../services/api.service.ts'
 
 import { onMounted, reactive, ref } from 'vue'
 import { ArticleInGridType } from '../types/article.type.ts'
-import axios from 'axios';
 
 const articles = ref<ArticleInGridType[]>([])
-
 const filteredArticles = ref<ArticleInGridType[]>([])
-const categories = ref<string[]>([]);
+
+const allCategories = ref<string[]>([]);
+const filteredCategories = ref<string[]>([]);
 
 const state = reactive({
-    loading: true,
-    error: false
+  loading: true,
+  error: false
 })
 
+fetchArticles(state, articles);
+
+
 onMounted(async () => {
+  allCategories.value = await fetchCategoryList();
+  allCategories.value.unshift("ALL");
 
-    try {
+  // Initialize filtered articles with all articles
+  filteredArticles.value = articles.value;
 
-        const data = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-        if (data === null) {
-            state.loading = false
-            state.error = true
-            throw new Error("No data returned from API.")
-        }
-        else {
-            articles.value = data.data;
-            state.loading = false
-        }
-
-
-    } catch (err: any) {
-        state.loading = false
-        state.error = true
-        throw new Error(err)
-    }
 });
 
-
-const filterArticles = () => {
-    // I filter articles based on the categories clicked
-    // If no categories are clicked, I return all articles
-    if (categories.value.length === 0) {
-      filteredArticles.value = articles.value;
-    }
-    // I filter articles based on the categories clicked
-    // If no categories are clicked, I return all articles
-    filteredArticles.value = articles.value.filter((article) => {
-        return categories.value.includes(article.category);
-    });
+const filterArticles = (filteredCategories: string[]) => {
+  // I filter articles based on the categories clicked
+  filteredArticles.value = articles.value.filter((article) => {
+    // Check if the article's category is included in the filtered categories array
+    return filteredCategories.includes(article.category);
+  });
 }
 
 
 const handleCategoryClicked = (category: string) => {
-    // I get the categories clicked with this event handler
-    // Then I filter articles and I pass them as props
-    if (category === "ALL") {
-        categories.value = [];
-        return;
-    } else if (categories.value.includes(category)) {
-        // If click on a category that is already clicked, remove it from the list
-        // By filtering the array and keeping only the categories that are not the one clicked
-        categories.value = categories.value.filter((category) => category !== category);
-        return;
-    }
+  // The category prop passed is the category clicked as string
+
+
+  // I get the categories clicked with this event handler
+  // Then I filter articles and I pass them as props
+  if (category === "ALL") {
+    // If click on "ALL" category, I reset the list of clicked categories
+    // And I return all articles
+    filteredCategories.value = [];
+    filteredArticles.value = articles.value;
+    return;
+
+
+    // If the clicked category is already in the list of clicked categories
+  } else if (filteredCategories.value.includes(category)) {
+    // I remove this category from the list
+    filteredCategories.value = filteredCategories.value.filter((cat) => cat !== category);
+
+  } else {
     // Using spread operator to add the new category to the list
     // Instead of using push() which is not reactive and would not trigger a re-render (watcher)
-    categories.value = [...categories.value, category];
+    filteredCategories.value = [...filteredCategories.value, category];
+  }
 
-    console.log(categories.value)
-    filterArticles();
+
+  // And finally I filter articles
+  filterArticles(filteredCategories.value);
+
 }
 
 </script>
@@ -86,7 +76,7 @@ const handleCategoryClicked = (category: string) => {
 <template>
   <MyHeader />
   <SearchInput />
-  <CategoriesFilter @categoryClicked="handleCategoryClicked" />
+  <CategoriesFilter @categoryClicked="handleCategoryClicked" :clickedCategories="filteredCategories"/>
   <ArticlesGrid :articles="filteredArticles" :state="state" />
 </template>
 

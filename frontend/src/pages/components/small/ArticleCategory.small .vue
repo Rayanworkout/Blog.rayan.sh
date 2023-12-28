@@ -30,5 +30,11 @@ defineProps<{ category: string }>()
     cursor: pointer;
 }
 
+.category.active {
+    color: var(--primary);
+    border-color: var(--primary);
+    cursor: pointer;
+}
+
 
 </style>

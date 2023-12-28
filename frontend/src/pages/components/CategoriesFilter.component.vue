@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import axios from 'axios';
 // import ArticleTag from './small/ArticleTag.small.vue'
+import { fetchTagsList } from '../../services/api.service.ts'
+import { fetchCategoryList } from '../../services/api.service.ts'
 import ArticleCategory from './small/ArticleCategory.small .vue'
 import { onMounted, ref } from 'vue';
 
@@ -25,32 +26,17 @@ const splitCategories = (categories: string[]) => {
     return result;
 };
 
-const getTagsOrCategoriesList = async (element: "tags" | "categories") => {
-
-    try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/${element}/`, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-
-        return response.data;
-
-    } catch (error: any) {
-        return null;
-    }
-};
 
 onMounted(async () => {
-    const fetchedTags = await getTagsOrCategoriesList("tags");
-    const fetchedCategories = await getTagsOrCategoriesList("categories");
+    const fetchedTags = await fetchTagsList();
+    const fetchedCategories = await fetchCategoryList();
     fetchedCategories.unshift("ALL");
     tags.value = splitTags(fetchedTags);
     categories.value = splitCategories(fetchedCategories);
 
-
 });
 
+defineProps<{ clickedCategories: string[] }>()
 // Define the emits list, here when a category is clicked
 defineEmits(["categoryClicked"]);
 
@@ -58,10 +44,10 @@ defineEmits(["categoryClicked"]);
 
 
 <template>
-    <ul v-for="categoryList in categories" :key="categoryList[0]"
+    <ul v-for="categoriesList in categories" :key="categoriesList[0]"
         class="list-inline list-unstyled d-flex justify-content-center pt-3 category-list">
-        <div v-for="category in categoryList">
-            <ArticleCategory :category="category" class="category" @click="$emit('categoryClicked', category)" />
+        <div v-for="category in categoriesList">
+            <ArticleCategory :category="category" :class="{ active: clickedCategories.includes(category) }" class="category" @click="$emit('categoryClicked', category);" />
         </div>
     </ul>
 </template>
