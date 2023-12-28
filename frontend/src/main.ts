@@ -9,8 +9,7 @@ import About from './pages/About.page.vue'
 import Article from './pages/Article.page.vue'
 import NotFound from './pages/NotFound.page.vue'
 
-
-
+// My custom css
 import './style.css'
 // Bootstrap css and bootstrap icons
 import 'bootstrap/dist/css/bootstrap.min.css';

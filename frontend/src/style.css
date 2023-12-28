@@ -35,6 +35,8 @@
 
 /* Transitions */
 
+/* Classic fade */
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 1s;
@@ -44,6 +46,20 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+
+/* Fade2 */
+
+.fade2-enter-active,
+.fade2-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade2-enter-from,
+.fade2-leave-to {
+  opacity: 0;
+}
+
 
 
 /* Back */

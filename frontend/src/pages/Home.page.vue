@@ -23,11 +23,17 @@ fetchArticles(state, articles);
 
 
 onMounted(async () => {
+
   allCategories.value = await fetchCategoryList();
   allCategories.value.unshift("ALL");
 
-  // Initialize filtered articles with all articles
-  filteredArticles.value = articles.value;
+  // I use setTimeout to wait for the articles to be fetched
+  setTimeout(() => {
+    // Initialize filtered articles with all articles
+    filteredArticles.value = articles.value;
+  }, 200);
+
+
 
 });
 
@@ -76,7 +82,7 @@ const handleCategoryClicked = (category: string) => {
 <template>
   <MyHeader />
   <SearchInput />
-  <CategoriesFilter @categoryClicked="handleCategoryClicked" :clickedCategories="filteredCategories"/>
+  <CategoriesFilter @categoryClicked="handleCategoryClicked" :clickedCategories="filteredCategories" />
   <ArticlesGrid :articles="filteredArticles" :state="state" />
 </template>
 
