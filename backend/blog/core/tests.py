@@ -3,14 +3,7 @@ from django.test import TestCase
 from core.models import Article, Tag
 
 
-# title = models.CharField(max_length=100)
-# content = models.TextField()
-# description = models.TextField()
-# tags = models.ManyToManyField('Tag')
-# creation_date = models.DateTimeField()
-
-
-class TestCoreEndpoints(TestCase):
+class TestCoreUrls(TestCase):
     def setUp(self) -> None:
         """Create a test article"""
         # First we create a tag
@@ -135,3 +128,7 @@ class TestCoreEndpoints(TestCase):
         self.assertEqual(data["tags"], tag_names)
         
         self.assertEqual(data["creation_date"], self.article.creation_date.strftime("%B %d, %Y"))
+
+
+class TestCoreEndpoints(TestCase):
+    pass

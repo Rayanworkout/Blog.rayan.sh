@@ -1,4 +1,4 @@
-from core.models import Article
+from core.models import Article, Tag
 from django.http import JsonResponse
 
 
@@ -22,6 +22,12 @@ def get_article(request, id):
     except Article.DoesNotExist:
         return JsonResponse({"error": "this article does not exist"}, status=404)
 
+
+
+def get_all_tags(request):
+    tags = [Tag.serialize_name_only(tag) for tag in Tag.objects.all()]
+
+    return JsonResponse(tuple(tags), safe=False, status=200)
 
 # def create_article(request):
 #     # Allowing only POST requests

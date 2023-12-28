@@ -5,11 +5,10 @@
 import { onMounted, reactive, ref } from 'vue';
 import MarkdownIt from 'markdown-it';
 import mdHighlight from 'markdown-it-highlightjs';
-import api from '../services/api.ts';
 import { ArticleType } from '../types/article.type.ts'
 import { useRoute } from 'vue-router';
 import ArticleTag from './components/small/ArticleTag.small.vue'
-
+import axios from 'axios';
 
 const route = useRoute();
 const state = reactive({
@@ -30,11 +29,15 @@ const article = ref<ArticleType>({
 
 const renderedHtml = ref(''); // Ref to store the rendered HTML
 
-onMounted(async () => {
-
+const fetchArticles = async () => {
     try {
         const id = route.params.id.toString();
-        const response = await api.getSingleArticle(id);
+        const response = await axios.get(`http://127.0.0.1:8000/api/v1/article/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+
+    });
 
         if (response === null) {
 
@@ -43,7 +46,7 @@ onMounted(async () => {
             throw new Error("No data returned from API.")
         }
         else {
-            article.value = response;
+            article.value = response.data;
             const md = new MarkdownIt().use(mdHighlight);
             renderedHtml.value = md.render(article.value.content);
             state.loading = false
@@ -55,8 +58,14 @@ onMounted(async () => {
         state.error = true
         throw new Error('Could not get article.')
     }
+}
+
+onMounted(() => {
+
+    fetchArticles();
 
 });
+
 
 </script>
 

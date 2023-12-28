@@ -46,3 +46,6 @@ class Tag(models.Model):
     
     def __str__(self) -> str:
         return self.name.capitalize()
+    
+    def serialize_name_only(self):
+        return self.name.capitalize()
