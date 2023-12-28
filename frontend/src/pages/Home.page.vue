@@ -33,6 +33,7 @@ fetchArticles(state, articles);
 onMounted(async () => {
 
   allCategories.value = await fetchCategoryList();
+  // Add "ALL" category to the beginning of the list
   allCategories.value.unshift("ALL");
 
   // I use setTimeout to wait for the articles to be fetched
@@ -42,14 +43,6 @@ onMounted(async () => {
   }, 200);
 
 });
-
-// category: string,
-
-// filteredCategories: Ref<string[]>,
-
-// articles: Ref<ArticleInGridType[]>,
-
-// filteredArticles: Ref<ArticleInGridType[]>) => {
 
 
 // Apply filtering with the imported function

@@ -1,10 +1,30 @@
 
 
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import { debounceInput } from '../../services/debouncing.service.ts'
+
+
+const searchInput = ref('')
+
+const handleInput = () => {
+    debounceInput(searchInput.value, test);
+}
+
+const test = () => {
+    console.log('test')
+}
+
+
+</script>
+
+
 
 <template>
     <div class="container">
         <div class="text-center">
-            <input type="text" placeholder="Search">
+            <input type="text" placeholder="Search" @input="handleInput" v-model="searchInput">
         </div>
     </div>
 </template>

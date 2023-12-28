@@ -17,8 +17,8 @@ defineProps<{ article: ArticleInGridType }>()
                     <h4>{{ article.title }}</h4>
 
                     <div class="mb-2 date">
-                        <small>{{ article.creation_date }}</small><br>
-                        <small>{{ article.category }}</small>
+                        <small>{{ article.creation_date }}</small>
+                        <div class="category"><small>{{ article.category }}</small></div>
                     </div>
                 </router-link>
             </div>
@@ -69,7 +69,7 @@ h4:hover {
     color: inherit;
 }
 
-.arrow:hover {
+.category small {
     color: var(--primary);
 }
 
