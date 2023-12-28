@@ -50,11 +50,20 @@ const applyFiltering = (category: string) => {
   handleCategoryClicked(category, filteredCategories, articles, filteredArticles);
 }
 
+const handleInput = (input: string) => {
+  // Allowing the user to search for articles by title
+  if (input.length < 2) {
+    filteredArticles.value = articles.value;
+    return;
+  }
+  filteredArticles.value = articles.value.filter(article => article.title.toLowerCase().includes(input.toLowerCase()));
+}
+
 </script>
 
 <template>
   <MyHeader />
-  <SearchInput />
+  <SearchInput @inputUpdate="handleInput" />
   <CategoriesFilter @categoryClicked="applyFiltering" :clickedCategories="filteredCategories" />
   <ArticlesGrid :articles="filteredArticles" :state="state" />
 </template>

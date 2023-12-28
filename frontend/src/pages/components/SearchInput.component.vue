@@ -1,21 +1,13 @@
 
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
-import { debounceInput } from '../../services/debouncing.service.ts'
+const emit = defineEmits(['inputUpdate'])
 
 
-const searchInput = ref('')
-
-const handleInput = () => {
-    debounceInput(searchInput.value, test);
+const handleInput = (e: any) => {
+    emit('inputUpdate', e.target.value)
 }
-
-const test = () => {
-    console.log('test')
-}
-
 
 </script>
 
@@ -24,7 +16,7 @@ const test = () => {
 <template>
     <div class="container">
         <div class="text-center">
-            <input type="text" placeholder="Search" @input="handleInput" v-model="searchInput">
+            <input type="text" placeholder="Search" @input="handleInput">
         </div>
     </div>
 </template>
