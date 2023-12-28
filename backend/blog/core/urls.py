@@ -6,4 +6,5 @@ urlpatterns = [
     # path('create/', api.create_article),
     path("article/<int:id>", api.get_article),
     path("tags/", api.get_all_tags),
+    path("categories/", api.get_all_categories),
 ]
