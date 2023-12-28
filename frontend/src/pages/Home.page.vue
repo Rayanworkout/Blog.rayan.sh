@@ -56,7 +56,14 @@ const handleInput = (input: string) => {
     filteredArticles.value = articles.value;
     return;
   }
-  filteredArticles.value = articles.value.filter(article => article.title.toLowerCase().includes(input.toLowerCase()));
+  filteredArticles.value = articles.value.filter(article => {
+    // filter either by title or by description content
+    const searchTerm = input.toLowerCase();
+    const inTitle = article.title.toLowerCase().includes(searchTerm);
+    const inContent = article.description.toLowerCase().includes(searchTerm);
+    
+    return inTitle || inContent;
+});
 }
 
 </script>
