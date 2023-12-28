@@ -54,7 +54,8 @@ const showCursor = computed(() => index.value < text.length);
 <style scoped>
 
 .about {
-    width: 30%;
+    width: 60%;
+    text-align: center;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 1rem;
@@ -122,4 +123,5 @@ cursor: pointer;
         font-size: 1.2rem;
     }
 }
+
 </style>

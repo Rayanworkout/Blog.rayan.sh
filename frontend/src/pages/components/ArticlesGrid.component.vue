@@ -1,42 +1,7 @@
 <script setup lang="ts">
 import ArticleInGrid from './ArticleInGrid.component.vue'
-import { onMounted, reactive, ref } from 'vue'
-import { ArticleInGridType } from '../../types/article.type.ts'
-import axios from 'axios';
 
-const articles = ref<ArticleInGridType[]>([])
-
-const state = reactive({
-    loading: true,
-    error: false
-})
-
-onMounted(async () => {
-
-    try {
-
-        const data = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
-        if (data === null) {
-            state.loading = false
-            state.error = true
-            throw new Error("No data returned from API.")
-        }
-        else {
-            articles.value = data.data;
-            state.loading = false
-        }
-
-
-    } catch (err: any) {
-        state.loading = false
-        state.error = true
-        throw new Error(err)
-    }
-});
+defineProps(['articles', 'state'])
 
 </script>
 

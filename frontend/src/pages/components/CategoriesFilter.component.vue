@@ -51,26 +51,8 @@ onMounted(async () => {
 
 });
 
-// const clickedCategories = ref<string[]>([]);
-
-// const handleClick = (e: any) => {
-//     // <i class="bi bi-check"></i>
-//     // I empty the array if the user clicks on the "ALL" category
-//     if (e.target.innerText === "ALL") {
-//         clickedCategories.value = [];
-//         return;
-//     } else if (clickedCategories.value.includes(e.target.innerText)) {
-//         // If click on a category that is already clicked, remove it from the list
-//         // By filtering the array and keeping only the categories that are not the one clicked
-//         clickedCategories.value = clickedCategories.value.filter((category) => category !== e.target.innerText);
-//         return;
-//     }
-//     // Using spread operator to add the new category to the list
-//     // Instead of using push() which is not reactive and would not trigger a re-render (watcher)
-//     clickedCategories.value = [...clickedCategories.value, e.target.innerText];
-
-// }
-
+// Define the emits list, here when a category is clicked
+defineEmits(["categoryClicked"]);
 
 </script>
 

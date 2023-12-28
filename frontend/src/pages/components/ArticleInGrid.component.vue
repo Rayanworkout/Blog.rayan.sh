@@ -17,7 +17,8 @@ defineProps<{ article: ArticleInGridType }>()
                     <h4>{{ article.title }}</h4>
 
                     <div class="mb-2 date">
-                        <small>{{ article.creation_date }}</small>
+                        <small>{{ article.creation_date }}</small><br>
+                        <small>{{ article.category }}</small>
                     </div>
                 </router-link>
             </div>
