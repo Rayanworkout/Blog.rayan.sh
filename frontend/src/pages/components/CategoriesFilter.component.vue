@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import axios from 'axios';
 // import ArticleTag from './small/ArticleTag.small.vue'
@@ -52,35 +51,40 @@ onMounted(async () => {
 
 });
 
+// const clickedCategories = ref<string[]>([]);
+
+// const handleClick = (e: any) => {
+//     // <i class="bi bi-check"></i>
+//     // I empty the array if the user clicks on the "ALL" category
+//     if (e.target.innerText === "ALL") {
+//         clickedCategories.value = [];
+//         return;
+//     } else if (clickedCategories.value.includes(e.target.innerText)) {
+//         // If click on a category that is already clicked, remove it from the list
+//         // By filtering the array and keeping only the categories that are not the one clicked
+//         clickedCategories.value = clickedCategories.value.filter((category) => category !== e.target.innerText);
+//         return;
+//     }
+//     // Using spread operator to add the new category to the list
+//     // Instead of using push() which is not reactive and would not trigger a re-render (watcher)
+//     clickedCategories.value = [...clickedCategories.value, e.target.innerText];
+
+// }
+
+
 </script>
 
 
 <template>
-    <div class="container">
-        <div class="text-center">
-            <input type="text" placeholder="Search">
-            <ul v-for="categoryList in categories" :key="categoryList[0]"
-                class="list-inline list-unstyled d-flex justify-content-center pt-3 category-list">
-                <div v-for="category in categoryList">
-                    <ArticleCategory :category="category" class="category" />
-                </div>
-
-            </ul>
+    <ul v-for="categoryList in categories" :key="categoryList[0]"
+        class="list-inline list-unstyled d-flex justify-content-center pt-3 category-list">
+        <div v-for="category in categoryList">
+            <ArticleCategory :category="category" class="category" @click="$emit('categoryClicked', category)" />
         </div>
-    </div>
+    </ul>
 </template>
-  
-
 
 <style scoped>
-input {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-    width: 15%;
-    max-width: 500px;
-}
-
 .category-list {
     margin: 0;
     padding: 0;
@@ -92,9 +96,6 @@ input {
 }
 
 @media (max-width: 768px) {
-    input {
-        width: 50%;
-    }
 
     .category {
         font-size: 0.65em;
