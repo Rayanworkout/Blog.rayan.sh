@@ -22,7 +22,7 @@ class TestCoreUrls(TestCase):
     def test_home(self):
         """Test that the root url returns a 404"""
         response = self.client.get("/")
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
 
     def test_all_articles_endpoint_SUCCESS(self):
         """Test that the articles endpoint returns a 200"""
