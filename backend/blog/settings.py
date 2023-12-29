@@ -14,7 +14,6 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://rayan.sh",
 ]
 
 if DEBUG:
@@ -40,7 +39,7 @@ else:
             "http://" + SERVER_HOST + ":5173",
             "http://" + SERVER_HOST + ":4173",
             # And my own domain
-            "http://blog.rayan.sh/"
+            "http://blog.rayan.sh",
         ]
 
         CORS_ORIGIN_ALLOW_ALL = False

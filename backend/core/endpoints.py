@@ -1,5 +1,8 @@
 from core.models import Article, Tag, Category
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+import subprocess
 
 
 def get_all_articles_list(request):
@@ -57,3 +60,14 @@ def get_all_categories(request):
 
 #     except Exception as e:
 #         return JsonResponse({"error": str(e)}, status=400)
+
+
+@csrf_exempt
+def trigger_build(request):
+    """Triggers a build for the blog app
+    by sending a webhook from github."""
+    if request.method == 'GET':
+        subprocess.run(['/home/rayan/Dev/hello.sh'])
+        return JsonResponse({'message': 'Build triggered successfully.'})
+    else:
+        return JsonResponse({'message': 'Invalid request method.'}, status=405)

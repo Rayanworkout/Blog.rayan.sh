@@ -130,4 +130,4 @@ echo "Restarting Apache service ..."
 
 echo "Done, build successful."
 
-source /var/www/html/telegram_message.sh
+source /var/www/html/blog/telegram_message.sh
