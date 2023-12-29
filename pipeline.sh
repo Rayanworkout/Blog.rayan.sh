@@ -1,14 +1,17 @@
-# !/bin/bash
+#!/bin/bash
 
 # /var/www/html  must have www-data ownership
-# VITE_API_URL=http://127.0.0.1:8000/api/v1
-# VITE_API_URL_PROD=http://194.135.81.27/api/v1
+# VITE_API_URL=http://127.0.0.1:8000/core
+# VITE_API_URL_PROD=http://194.135.81.27/core
 
 # Visudo
 # www-data ALL=(ALL) NOPASSWD: /bin/rm -r /var/www/html/Blog.rayan.sh
 # www-data ALL=(ALL) NOPASSWD: /bin/rm -r /var/www/html/blog_latest
 # www-data ALL=(ALL) NOPASSWD: /usr/sbin/service apache2 restart
 # www-data ALL=(ALL) NOPASSWD: /bin/rm -r /var/www/html/blog/backend/static
+# www-data ALL=(ALL) NOPASSWD: /usr/bin/npm install
+# www-data ALL=(ALL) NOPASSWD: /usr/bin/npm run build
+
 
 # Stop if an error occurs
 set -e
@@ -52,7 +55,7 @@ echo "> ok"
 settings_file="blog_latest/backend/blog/settings.py"
 
 if grep -q "DEBUG = True" "$settings_file"; then
-    echo "DEBUG is set to True in Django settings. Aborting build."
+    echo "DEBUG is set to True in Django settings. Aborting build ..."
     exit 1
 else
     echo "DEBUG is False, continuing with the build."
@@ -108,9 +111,23 @@ echo '> Deleting temp folder'
 sudo rm -r "$blog_latest"
 echo '> Done'
 
+
+###### FRONTEND ######
+
+
+cd /var/www/html/blog/frontend
+
+echo '> Installing NodeJS dependancies ...'
+sudo npm install
+
+echo '> Building Project'
+sudo npm run build
+
+
+# Restart Apache
 echo "Restarting Apache service ..."
-sudo service apache2 restart
+#sudo service apache2 restart
 
 echo "Done, build successful."
 
-msg="Blog_backend_build_is_successful"
+source /var/www/html/telegram_message.sh

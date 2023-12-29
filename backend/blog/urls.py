@@ -1,10 +1,10 @@
-
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', lambda request: redirect('admin/')),
-    path('api/v1/', include('core.urls')),
+    path("back/", include("core.urls")),
+    # I route admin to the root
+    # And I place it at the end otherwise it will override all other routes
+    path("", admin.site.urls),
 ]

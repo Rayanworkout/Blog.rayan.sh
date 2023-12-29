@@ -22,20 +22,20 @@ class TestCoreUrls(TestCase):
         self.article.tags.add(self.tag)
 
     def test_home(self):
-        """Test that the root url redirects
+        """Test that the root url gets
         to admin page"""
         response = self.client.get("/")
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_all_articles_endpoint_SUCCESS(self):
         """Test that the articles endpoint returns a 200"""
-        response = self.client.get("/api/v1/articles/")
+        response = self.client.get("/core/articles/")
         self.assertEqual(response.status_code, 200)
 
     def test_all_articles_returned_JSON_format(self):
         """Test that the all articles endpoint returns
         the articles in the right json format"""
-        response = self.client.get("/api/v1/articles/")
+        response = self.client.get("/core/articles/")
 
         # Check if response is proper json format
         self.assertEqual(response["Content-Type"], "application/json")
@@ -49,7 +49,7 @@ class TestCoreUrls(TestCase):
         """Test that the returned data has the right keys
         and values types"""
 
-        response = self.client.get("/api/v1/articles/")
+        response = self.client.get("/core/articles/")
 
         data = response.json()
 
@@ -89,7 +89,7 @@ class TestCoreUrls(TestCase):
     def test_single_article_endpoint_NOT_FOUND(self):
         """Test that the single article endpoint returns a 404
         if the article does not exist"""
-        response = self.client.get("/api/v1/article/5")
+        response = self.client.get("/core/article/5")
 
         # Article does not exist
         self.assertEqual(response.status_code, 404)
@@ -99,7 +99,7 @@ class TestCoreUrls(TestCase):
         if the article exists"""
 
         article_id = self.article.id
-        response = self.client.get(f"/api/v1/article/{article_id}")
+        response = self.client.get(f"/core/article/{article_id}")
 
         # Article does not exist
         self.assertEqual(response.status_code, 200)
@@ -109,7 +109,7 @@ class TestCoreUrls(TestCase):
         the article in the right format"""
 
         article_id = self.article.id
-        response = self.client.get(f"/api/v1/article/{article_id}")
+        response = self.client.get(f"/core/article/{article_id}")
 
         data = response.json()
 
