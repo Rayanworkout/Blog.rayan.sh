@@ -39,6 +39,8 @@ else:
             "http://" + SERVER_HOST,
             "http://" + SERVER_HOST + ":5173",
             "http://" + SERVER_HOST + ":4173",
+            # And my own domain
+            "http://blog.rayan.sh/"
         ]
 
         CORS_ORIGIN_ALLOW_ALL = False
