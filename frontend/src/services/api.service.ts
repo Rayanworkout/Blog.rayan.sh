@@ -7,10 +7,12 @@ interface State {
   error: boolean
 }
 
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const fetchArticles = async (state: State, articles: Ref<ArticleInGridType[]>) => {
   try {
-    const data = await axios.get('http://127.0.0.1:8000/api/v1/articles/', {
+
+    const data = await axios.get(`${BASE_URL}/articles/`, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -38,7 +40,7 @@ export const fetchArticles = async (state: State, articles: Ref<ArticleInGridTyp
 export const fetchTagsList = async () => {
 
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/v1/tags/', {
+    const response = await axios.get(`${BASE_URL}/tags/`, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -56,7 +58,7 @@ export const fetchTagsList = async () => {
 export const fetchCategoryList = async () => {
 
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/v1/categories/', {
+    const response = await axios.get(`${BASE_URL}/categories/`, {
       headers: {
         'Content-Type': 'application/json',
       }
