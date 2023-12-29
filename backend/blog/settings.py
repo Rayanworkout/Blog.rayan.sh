@@ -1,19 +1,36 @@
 from pathlib import Path
 import os
+import json
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-from dotenv import load_dotenv
-load_dotenv()
-
-SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
-ALLOWED_HOSTS = [str(os.getenv('SERVER_HOST')), "127.0.0.1", "localhost"]
+if DEBUG:
+    load_dotenv()
+
+    SECRET_KEY = str(os.getenv('SECRET_KEY'))
+
+else:
+    with open('/etc/blog_backend_env.json') as file:
+        content = json.load(file)
+        KEY = content['SECRET_KEY']
+        SERVER_HOST = content['SERVER_HOST']
+
+
+    SECRET_KEY = KEY
+    SERVER_HOST = SERVER_HOST
+    
+    ALLOWED_HOSTS.append(SERVER_HOST)
+
+
+
 
 # Application definition
 
