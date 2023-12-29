@@ -3,14 +3,10 @@
 <script setup lang="ts">
 
 import { onMounted, reactive, ref } from 'vue';
-import MarkdownIt from 'markdown-it';
-import mdHighlight from 'markdown-it-highlightjs';
 import { ArticleType } from '../types/article.type.ts'
-import { useRoute } from 'vue-router';
 import ArticleTag from './components/small/ArticleTag.small.vue'
-import axios from 'axios';
+import { fetchArticle } from '../services/api.service.ts'
 
-const route = useRoute();
 const state = reactive({
     loading: true,
     error: false
@@ -30,40 +26,9 @@ const article = ref<ArticleType>({
 
 const renderedHtml = ref(''); // Ref to store the rendered HTML
 
-const fetchArticles = async () => {
-    try {
-        const id = route.params.id.toString();
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/article/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
-
-    });
-
-        if (response === null) {
-
-            state.loading = false
-            state.error = true
-            throw new Error("No data returned from API.")
-        }
-        else {
-            article.value = response.data;
-            const md = new MarkdownIt().use(mdHighlight);
-            renderedHtml.value = md.render(article.value.content);
-            state.loading = false
-        }
-
-
-    } catch (err: any) {
-        state.loading = false
-        state.error = true
-        throw new Error('Could not get article.')
-    }
-}
-
 onMounted(() => {
 
-    fetchArticles();
+    fetchArticle(state, renderedHtml, article);
 
 });
 

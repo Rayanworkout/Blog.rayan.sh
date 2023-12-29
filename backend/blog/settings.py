@@ -11,25 +11,42 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
 if DEBUG:
     load_dotenv()
 
-    SECRET_KEY = str(os.getenv('SECRET_KEY'))
+    SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 else:
-    with open('/etc/blog_backend_env.json') as file:
-        content = json.load(file)
-        KEY = content['SECRET_KEY']
-        SERVER_HOST = content['SERVER_HOST']
+    try:
+        with open("/etc/blog_backend_env.json") as file:
+            content = json.load(file)
+            KEY = content["SECRET_KEY"]
+            SERVER_HOST = content["SERVER_HOST"]
 
+        SECRET_KEY = KEY
+        SERVER_HOST = SERVER_HOST
 
-    SECRET_KEY = KEY
-    SERVER_HOST = SERVER_HOST
-    
-    ALLOWED_HOSTS.append(SERVER_HOST)
+        ALLOWED_HOSTS.append(SERVER_HOST)
 
+        # Allowing only the frontend to access the API
+        CORS_ALLOWED_ORIGINS += [
+            "http://" + SERVER_HOST,
+            "http://" + SERVER_HOST + ":5173",
+            "http://" + SERVER_HOST + ":4173",
+        ]
 
+        CORS_ORIGIN_ALLOW_ALL = False
+
+    except FileNotFoundError:
+        print()
+        print('"/etc/blog_backend_env.json" not found. Are you in production ?')
+        print()
+        exit(1)
 
 
 # Application definition
@@ -56,14 +73,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
-# Allowing only localhost:5173 to access the API
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
-
-CORS_ORIGIN_ALLOW_ALL = False
 
 
 ROOT_URLCONF = "blog.urls"

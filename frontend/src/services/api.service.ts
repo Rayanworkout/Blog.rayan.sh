@@ -1,6 +1,10 @@
 import axios from "axios";
 import { Ref } from 'vue'
-import { ArticleInGridType } from '../types/article.type.ts'
+import { ArticleInGridType, ArticleType } from '../types/article.type.ts'
+import MarkdownIt from 'markdown-it';
+import mdHighlight from 'markdown-it-highlightjs';
+import { useRoute } from 'vue-router';
+
 
 interface State {
   loading: boolean,
@@ -72,5 +76,37 @@ export const fetchCategoryList = async () => {
 };
 
 
+export const fetchArticle = async (state: State, renderedHtml: Ref<string>, article: Ref<ArticleType>) => {
+  try {
 
+    const route = useRoute();
+
+    const id = route.params.id.toString();
+    const response = await axios.get(`${BASE_URL}/article/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+
+    });
+
+    if (response === null) {
+
+      state.loading = false
+      state.error = true
+      throw new Error("No data returned from API.")
+    }
+    else {
+      article.value = response.data;
+      const md = new MarkdownIt().use(mdHighlight);
+      renderedHtml.value = md.render(article.value.content);
+      state.loading = false
+    }
+
+
+  } catch (err: any) {
+    state.loading = false
+    state.error = true
+    throw new Error('Could not get article.')
+  }
+}
 
