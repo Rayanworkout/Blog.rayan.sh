@@ -22,9 +22,10 @@ class TestCoreUrls(TestCase):
         self.article.tags.add(self.tag)
 
     def test_home(self):
-        """Test that the root url returns a 404"""
+        """Test that the root url redirects
+        to admin page"""
         response = self.client.get("/")
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
     def test_all_articles_endpoint_SUCCESS(self):
         """Test that the articles endpoint returns a 200"""

@@ -1,6 +1,8 @@
 # !/bin/bash
 
 # /var/www/html  must have www-data ownership
+# VITE_API_URL=http://127.0.0.1:8000/api/v1
+# VITE_API_URL_PROD=http://194.135.81.27/api/v1
 
 # Visudo
 # www-data ALL=(ALL) NOPASSWD: /bin/rm -r /var/www/html/Blog.rayan.sh
