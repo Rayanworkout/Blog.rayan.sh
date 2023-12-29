@@ -40,7 +40,7 @@ const showCursor = computed(() => index.value < text.length);
 
             <div class="infos"><i class="bi bi-envelope px-2"></i><a href="mailto:rayan13170@protonmail.com"
                     class="mail">rayan13170@protonmail.com</a></div>
-            <div class="infos"><a href="https://github.com/Rayanworkout"><i class="bi bi-github px-2"></i>Rayanworkout</a>
+            <div class="infos"><a href="https://github.com/Rayanworkout" target="_blank"><i class="bi bi-github px-2"></i>Rayanworkout</a>
             </div>
         </div>
         <div>

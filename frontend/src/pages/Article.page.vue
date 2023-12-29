@@ -23,6 +23,7 @@ const article = ref<ArticleType>({
     title: '',
     description: '',
     content: '',
+    category: '',
     creation_date: '',
     tags: [],
 });

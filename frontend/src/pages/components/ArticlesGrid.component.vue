@@ -8,7 +8,8 @@ defineProps(['articles', 'state'])
 <template>
     <div class="container py-4">
         <div v-if="state.loading" class="text-center">Loading <span class="cursor">_</span></div>
-        <div v-if="articles.length === 0" class="text-center">Loading <span class="cursor">_</span></div>
+        <div v-if="articles.length === 0 && !state.error" class="text-center">No article at the moment <span
+                class="cursor">_</span></div>
         <div v-if="state.error" class="text-center">Error while fetching the articles ...</div>
         <div v-else>
             <TransitionGroup name="fade2">
