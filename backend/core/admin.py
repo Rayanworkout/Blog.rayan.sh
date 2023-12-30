@@ -24,6 +24,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = ("creation_date", "tags", "category")
     date_hierarchy = "creation_date"
     ordering = ("-creation_date",)
+    list_editable = ("is_published",)
 
     fieldsets = (
         ("Article", {"fields": ("title", "is_published", "description", "content", "tags", "category")}),

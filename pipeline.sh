@@ -37,7 +37,7 @@ if [ -d "$git_cloned" ]; then
     sudo rm -r "$git_cloned"
     echo "git_cloned removed."
 else
-    echo "git_cloned= does not exist."
+    echo "git_cloned does not exist."
 fi
 
 
