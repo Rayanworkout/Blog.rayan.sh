@@ -8,5 +8,4 @@ urlpatterns = [
     path("tags/", api.get_all_tags),
     path("categories/", api.get_all_categories),
     # Endpoint to trigger a build 
-    path("build/", api.trigger_build)
 ]

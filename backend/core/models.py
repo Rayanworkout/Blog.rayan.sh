@@ -6,9 +6,11 @@ from django.utils import timezone
 class Article(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    description = models.TextField()
+    description = models.CharField(max_length=500)
     
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    is_published = models.BooleanField(default=False)
+    likes = models.IntegerField(default=0)
 
     tags = models.ManyToManyField("Tag")
     creation_date = models.DateTimeField(default=timezone.now)
