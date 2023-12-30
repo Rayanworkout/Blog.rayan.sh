@@ -17,6 +17,8 @@ const state = reactive({
 const article = ref<ArticleType>({
     id: 0,
     title: '',
+    is_published: false,
+    likes: 0,
     description: '',
     content: '',
     category: '',
