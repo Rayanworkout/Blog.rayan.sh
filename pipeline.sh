@@ -7,6 +7,9 @@
 # Apache2 error logs
 # sudo cat /var/log/apache2/error.log
 
+# Check apache config
+# sudo apache2ctl configtest
+
 # Stop if an error occurs
 set -e
 
@@ -76,7 +79,7 @@ fi
 # Trailing slash after source directory to copy the content of the folder
 # and not the folder itself
 echo "> Copying folder to Project directory"
-rsync -av --exclude='.git/' ./blog_latest/ ./blog/
+sudo rsync -av --exclude='.git/' ./blog_latest/ ./blog/
 echo "> Folder copy ok"
 
 cd ./blog/backend
@@ -127,11 +130,16 @@ echo '> Done'
 
 cd "$project_folder/blog/frontend"
 
+# Copy .env into the build folder
+echo "> Copying .env file to project folder"
+sudo cp "$project_folder/.env" ./
+
 echo '> Installing NodeJS dependancies ...'
 sudo npm install
 
 echo '> Building Project'
 sudo npm run build
+
 
 # Copying the build folder to the apache folder
 echo "> Copying build folder to $apache_folder"
@@ -148,3 +156,5 @@ sudo service apache2 restart
 echo "Done, build successful."
 
 source "$project_folder/telegram.sh"
+
+echo "Access your blog at http://blog.rayan.sh"
