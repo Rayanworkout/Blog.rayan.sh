@@ -4,20 +4,25 @@
 # VITE_API_URL=http://127.0.0.1:8000/core
 # VITE_API_URL_PROD=http://194.135.81.27/core
 
-# Apache2 error logs
-# sudo cat /var/log/apache2/error.log
+# Visudo
+# www-data ALL=(ALL) NOPASSWD: /bin/rm -r /var/www/html/Blog.rayan.sh
+# www-data ALL=(ALL) NOPASSWD: /bin/rm -r /var/www/html/blog_latest
+# www-data ALL=(ALL) NOPASSWD: /usr/sbin/service apache2 restart
+# www-data ALL=(ALL) NOPASSWD: /bin/rm -r /var/www/html/blog/backend/static
+# www-data ALL=(ALL) NOPASSWD: /usr/bin/npm install
+# www-data ALL=(ALL) NOPASSWD: /usr/bin/npm run build
+# www-data ALL=(ALL) NOPASSWD: /bin/cp
+
 
 # Stop if an error occurs
 set -e
 
-apache_folder="/var/www/html/"
-project_folder="/home/rayan/dev/rayan.sh/"
-
-cd "$project_folder"
+cd /var/www/html/
+echo "Current pwd: $(pwd)"
 
 # First delete blog_latest and Blog.rayan.sh folders if they exists
-blog_latest="$project_folder/blog_latest"
-git_cloned="$project_folder/Blog.rayan.sh"
+blog_latest="/var/www/html/blog_latest"
+git_cloned="/var/www/html/Blog.rayan.sh"
 
 if [ -d "$blog_latest" ]; then
     echo "blog_latest exists. Removing..."
@@ -34,14 +39,6 @@ if [ -d "$git_cloned" ]; then
     echo "git_cloned removed."
 else
     echo "git_cloned does not exist."
-fi
-
-# Creating blog folder if it doesn't exist
-# in apache_folder
-if [ ! -d "$apache_folder/blog" ]; then
-    echo "Creating blog folder ..."
-    sudo mkdir "$apache_folder/blog"
-    echo "Folder created."
 fi
 
 
@@ -65,20 +62,14 @@ else
     echo "DEBUG is False, continuing with the build."
 fi
 
-# Creating blog folder if it doesn't exist
-# in project_folder
-if [ ! -d "./blog" ]; then
-    echo "Creating blog folder ..."
-    sudo mkdir "./blog"
-    echo "Folder created."
-fi
 
 # Trailing slash after source directory to copy the content of the folder
 # and not the folder itself
-echo "> Copying folder to Project directory"
+echo "> Copying folder to /var/www/html"
 rsync -av --exclude='.git/' ./blog_latest/ ./blog/
 echo "> Folder copy ok"
 
+## Do not forget we are already in /var/www/html folder
 cd ./blog/backend
 echo '> Creating venv ...'
 python3 -m venv .venv
@@ -96,7 +87,7 @@ echo '> Migrations ok'
 
 
 
-static_folder="$project_folder/blog/backend/static"
+static_folder="/var/www/html/blog/backend/static"
 
 # Check if the folder exists
 if [ -d "$static_folder" ]; then
@@ -125,7 +116,7 @@ echo '> Done'
 ###### FRONTEND ######
 
 
-cd "$project_folder/blog/frontend"
+cd /var/www/html/blog/frontend
 
 echo '> Installing NodeJS dependancies ...'
 sudo npm install
@@ -133,18 +124,11 @@ sudo npm install
 echo '> Building Project'
 sudo npm run build
 
-# Copying the build folder to the apache folder
-echo "> Copying build folder to $apache_folder"
-sudo cp -r ./dist/ "$apache_folder/blog/"
-echo "> Folder copy ok"
-
-sudo chown -R www-data:www-data "$project_folder/blog"
-sudo chown -R www-data:www-data "$apache_folder/blog"
 
 # Restart Apache
 echo "Restarting Apache service ..."
-sudo service apache2 restart
+#sudo service apache2 restart
 
 echo "Done, build successful."
 
-source "$project_folder/telegram.sh"
+source /var/www/html/blog/telegram_message.sh

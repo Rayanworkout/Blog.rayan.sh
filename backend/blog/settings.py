@@ -23,7 +23,7 @@ if DEBUG:
 
 else:
     try:
-        with open("/etc/blog_backend_env.json") as file:
+        with open("/home/rayan/dev/rayan.sh/blog_backend_env.json") as file:
             content = json.load(file)
             KEY = content["SECRET_KEY"]
             SERVER_HOST = content["SERVER_HOST"]

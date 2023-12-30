@@ -8,4 +8,4 @@
 
 #### The API used could have been Flask but I needed Django admin panel to easily add Articles.
 
-## Website visible at blog.rayan.sh
+## Website visible at http://blog.rayan.sh
