@@ -5,3 +5,5 @@
 #### User can filter existing articles by category or name.
 
 #### The apache configuration is available in the repo as well as a whole script to automate project build on a server.
+
+##### The API used could have been Flask but I needed Django admin panel to easily add Articles.
