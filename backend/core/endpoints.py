@@ -68,6 +68,6 @@ def trigger_build(request):
     by sending a webhook from github."""
     if request.method == 'GET':
         subprocess.run(['/home/rayan/Dev/hello.sh'])
-        return JsonResponse({'message': 'Build triggered successfully.'})
+        return JsonResponse({'message': 'Build triggered successfully.'}, status=200)
     else:
         return JsonResponse({'message': 'Invalid request method.'}, status=405)

@@ -3,7 +3,7 @@
     <section class="container">
         <header class="py-2 mt-3 mx-auto">
             <div class="text-center">
-                <img src="../../assets/monkey.png" alt="">
+                <img src="../../assets/monkey-compressed.png" alt="">
                 <p class="my-2">Some Dev / DevOps related small tutorials or useful config files with detailed comments.</p>
             </div>
         </header>
