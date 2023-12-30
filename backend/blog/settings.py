@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "blog.rayan.sh"]
 CORS_ALLOWED_ORIGINS = [
@@ -40,6 +40,7 @@ else:
             "http://" + SERVER_HOST + ":4173",
             # And my own domain
             "http://blog.rayan.sh",
+            "https://blog.rayan.sh",
         ]
 
         CORS_ORIGIN_ALLOW_ALL = False

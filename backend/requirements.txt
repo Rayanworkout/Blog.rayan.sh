@@ -2,6 +2,7 @@ asgiref==3.7.2
 coverage==7.3.4
 Django==5.0
 django-cors-headers==4.3.1
+django-ratelimit==4.1.0
 python-dotenv==1.0.0
 sqlparse==0.4.4
 typing_extensions==4.9.0

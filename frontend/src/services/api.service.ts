@@ -13,6 +13,7 @@ interface State {
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+
 export const fetchArticles = async (state: State, articles: Ref<ArticleInGridType[]>) => {
   try {
 
@@ -42,7 +43,6 @@ export const fetchArticles = async (state: State, articles: Ref<ArticleInGridTyp
 }
 
 
-
 export const fetchTagsList = async () => {
 
   try {
@@ -58,7 +58,6 @@ export const fetchTagsList = async () => {
     return null;
   }
 };
-
 
 
 export const fetchCategoryList = async () => {
@@ -109,6 +108,24 @@ export const fetchArticle = async (state: State, renderedHtml: Ref<string>, arti
     state.loading = false
     state.error = true
     throw new Error('Could not get article.')
+  }
+}
+
+export const likeArticleService = async (articleId: number) => {
+
+
+  try {
+
+    const response = await axios.post(`${BASE_URL}/like/${articleId}`, {
+
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    return response.data;
+
+  } catch (error: any) {
+    return null;
   }
 }
 

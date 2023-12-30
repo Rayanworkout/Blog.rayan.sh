@@ -19,6 +19,7 @@ defineProps<{ article: ArticleInGridType }>()
                     <div class="mb-2 date">
                         <small>{{ article.creation_date }}</small>
                         <div class="category"><small>{{ article.category }}</small></div>
+                        <div v-if="article.likes > 1"><small><i class="bi bi-heart icon"></i> {{ article.likes }}</small></div>
                     </div>
                 </router-link>
             </div>
@@ -71,6 +72,10 @@ h4:hover {
 
 .category small {
     color: var(--primary);
+}
+
+.icon {
+    font-size: larger;
 }
 
 

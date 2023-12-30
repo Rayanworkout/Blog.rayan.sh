@@ -5,7 +5,7 @@
 import { onMounted, reactive, ref } from 'vue';
 import { ArticleType } from '../types/article.type.ts'
 import ArticleTag from './components/small/ArticleTag.small.vue'
-import { fetchArticle } from '../services/api.service.ts'
+import { fetchArticle, likeArticleService } from '../services/api.service.ts'
 
 const state = reactive({
     loading: true,
@@ -28,10 +28,15 @@ const article = ref<ArticleType>({
 
 const renderedHtml = ref(''); // Ref to store the rendered HTML
 
+
+const likeArticle = () => {
+    likeArticleService(article.value.id);
+    article.value.likes++;
+}
+
+
 onMounted(() => {
-
     fetchArticle(state, renderedHtml, article);
-
 });
 
 
@@ -54,6 +59,10 @@ onMounted(() => {
                             <ArticleTag :tag="tag" />
                         </span>
                     </div>
+                    <div class="mt-3 article-likes mx-auto">
+                        <div @click="likeArticle"><i class="bi bi-heart icon"></i></div>
+                        <div v-if="article.likes > 1">{{ article.likes }}</div>
+                    </div>
                 </div>
                 <transition name="fade">
                     <div v-if="!state.loading" class="article-content" v-html="renderedHtml"></div>
@@ -68,6 +77,19 @@ onMounted(() => {
 <style scoped>
 .article-container {
     width: 75%;
+}
+
+.article-likes {
+    width: 10%;
+}
+
+.article-likes i {
+    font-size: larger;
+}
+
+.article-likes i:hover, .article-likes div:hover {
+    cursor: pointer;
+    color: var(--primary);
 }
 
 @media (max-width: 768px) {

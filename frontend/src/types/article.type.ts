@@ -5,6 +5,7 @@ export type ArticleInGridType = {
     id: number;
     title: string;
     description: string;
+    likes: number;
     category: string;
     tags: string[];
     creation_date: string;
