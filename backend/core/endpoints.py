@@ -67,7 +67,7 @@ def trigger_build(request):
     """Triggers a build for the blog app
     by sending a webhook from github."""
     if request.method == 'GET':
-        subprocess.run(['/home/rayan/Dev/hello.sh'])
+        subprocess.run(['/var/www/html/blog/blog_pipeline.sh'])
         return JsonResponse({'message': 'Build triggered successfully.'}, status=200)
     else:
         return JsonResponse({'message': 'Invalid request method.'}, status=405)
