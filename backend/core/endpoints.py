@@ -34,26 +34,3 @@ def get_all_categories(request):
     categories = [category.name for category in Category.objects.all()]
 
     return JsonResponse(tuple(categories), safe=False, status=200)
-
-
-# def create_article(request):
-#     # Allowing only POST requests
-#     if request.method != 'POST':
-#         return JsonResponse({"error": "bad request method"}, status=400)
-
-#     try:
-#         # Get the JSON data from the request body
-#         data = json.loads(request.body)
-
-#         title, content = data['title'], data['content']
-
-#         new_article = Article.objects.create(title=title, content=content)
-#         new_article.save()
-
-#         return JsonResponse({"success": True, "message": "article successfully created"}, safe=False, status=201)
-
-#     except json.JSONDecodeError:
-#         return JsonResponse({"error": "invalid JSON"}, status=400)
-
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=400)

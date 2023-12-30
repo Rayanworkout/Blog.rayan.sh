@@ -22,6 +22,7 @@ class Article(models.Model):
         return {
             "id": self.id,
             "title": self.title,
+            "is_published": self.is_published,
             "description": self.description,
             "content": self.content,
             "category": self.category.name,
@@ -33,6 +34,7 @@ class Article(models.Model):
         return {
             "id": self.id,
             "title": self.title,
+            "is_published": self.is_published,
             "description": self.description,
             "category": self.category.name,
             "tags": [tag.name for tag in self.tags.all()],

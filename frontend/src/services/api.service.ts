@@ -27,7 +27,9 @@ export const fetchArticles = async (state: State, articles: Ref<ArticleInGridTyp
       throw new Error("No data returned from API.")
     }
     else {
-      articles.value = data.data;
+      // Return only published articles
+      const publishedArticles = data.data.filter((article: ArticleType) => article.is_published === true)
+      articles.value = publishedArticles;
       state.loading = false
     }
 
